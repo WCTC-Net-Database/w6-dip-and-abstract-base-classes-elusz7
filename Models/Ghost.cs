@@ -1,25 +1,48 @@
 ﻿using W6_assignment_template.Interfaces;
+using W6_assignment_template.Commands;
+using W6_assignment_template.Models;
+using System.Text.Json.Serialization;
 
-namespace W6_assignment_template.Models
+namespace W6_assignment_template.Entities
 {
-    public class Ghost : CharacterBase, IFlyable
+    public class Ghost : MonsterBase, IFlyable
     {
-        public string Treasure { get; set; }
-
-        public Ghost(string name, string type, int level, int hp, string treasure)
-            : base(name, type, level, hp)
+        private string Type;
+        private readonly FlyCommand FlyCommand;
+        public Ghost() { 
+            FlyCommand = new(this);
+        }
+        public Ghost(string name, int level, int hp, string treasure) 
+            : base(name, level, hp, treasure)
         {
-            Treasure = treasure;
+            FlyCommand = new(this);
+        }
+
+        public override void Move()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"{Name} tries to move, but ghosts can't walk.");
+            Console.ResetColor();
         }
 
         public void Fly()
         {
-            Console.WriteLine($"{Name} flies rapidly through the air.");
+            FlyCommand.Execute();
         }
 
         public override void UniqueBehavior()
         {
             throw new NotImplementedException();
+        }
+
+        [JsonPropertyName("Type")]
+        public string TypeString
+        {
+            get => Type;
+            set
+            {
+                Type = typeof(Ghost).Name;
+            }
         }
     }
 }

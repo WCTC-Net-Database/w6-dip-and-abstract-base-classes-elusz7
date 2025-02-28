@@ -5,18 +5,18 @@ using System.Text.Json.Serialization;
 
 namespace W6_assignment_template.Entities
 {
-    public class Goblin : MonsterBase
+    public class Fighter : PlayerBase
     {
         private string Type;
-        public Goblin() { }
-        public Goblin(string name, int level, int hp, string treasure) 
-            : base(name, level, hp, treasure)
+        public Fighter() { }
+        public Fighter(string name, int level, int hp, List<string> equipment, int gold)
+            : base(name, level, hp, equipment, gold)
         {
         }
 
         public override void UniqueBehavior()
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         [JsonPropertyName("Type")]
@@ -25,7 +25,7 @@ namespace W6_assignment_template.Entities
             get => Type;
             set
             {
-                Type = typeof(Goblin).Name;
+                Type = typeof(Fighter).Name;
             }
         }
     }

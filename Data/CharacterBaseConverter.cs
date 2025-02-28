@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using W6_assignment_template.Entities;
 using W6_assignment_template.Models;
 
 namespace W6_assignment_template.Data;
@@ -12,13 +13,17 @@ public class CharacterBaseConverter : JsonConverter<CharacterBase>
         {
             var root = doc.RootElement;
             var typeProperty = root.GetProperty("$type").GetString();
+            var classProperty = root.TryGetProperty("Type", out JsonElement classElement) ? classElement.GetString() : null;
             Type type = typeProperty switch
             {
-                "W6_assignment_template.Models.Player" => typeof(Player),
+                "W6_assignment_template.Models.PlayerBase" when classProperty.Equals("Fighter") => typeof(Fighter),
+                "W6_assignment_template.Models.PlayerBase" when classProperty.Equals("Mage") => typeof(Mage),
+                "W6_assignment_template.Models.PlayerBase" when classProperty.Equals("Druid") => typeof(Druid),
                 "W6_assignment_template.Models.Goblin" => typeof(Goblin),
                 "W6_assignment_template.Models.Ghost" => typeof(Ghost),
                 _ => throw new NotSupportedException($"Type {typeProperty} is not supported")
             };
+
             return (CharacterBase)JsonSerializer.Deserialize(root.GetRawText(), type, options);
         }
     }

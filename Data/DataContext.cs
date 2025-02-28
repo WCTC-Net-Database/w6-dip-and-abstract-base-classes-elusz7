@@ -41,13 +41,13 @@ namespace W6_assignment_template.Data
                 existingCharacter.Level = character.Level;
                 existingCharacter.HP = character.HP;
 
-                if (existingCharacter is Player player && character is Player updatedPlayer)
+                if (existingCharacter is PlayerBase player && character is PlayerBase updatedPlayer)
                 {
                     player.Gold = updatedPlayer.Gold;  // Specific to Player
                 }
-                if (existingCharacter is Goblin goblin && character is Goblin updatedGoblin)
+                if (existingCharacter is MonsterBase monster && character is MonsterBase updatedMonster)
                 {
-                    goblin.Treasure = updatedGoblin.Treasure;  // Specific to Goblin
+                    monster.Treasure = updatedMonster.Treasure;  // Specific to Goblin
                 }
 
                 SaveData();
